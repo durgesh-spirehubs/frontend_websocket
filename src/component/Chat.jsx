@@ -104,13 +104,13 @@ export default function Chat() {
     socket.send(JSON.stringify(count));
     setInputText("");
   };
-  const handledelete =  (id) => {
-               const del={
-                type:"delete",
-                roomId:roomId,
-                messageId:id
-               }
-               socket.send(JSON.stringify(del));
+  const handledelete = (id) => {
+    const del = {
+      type: "delete",
+      roomId: roomId,
+      messageId: id,
+    };
+    socket.send(JSON.stringify(del));
   };
   return (
     <div className="flex h-screen">
@@ -150,29 +150,6 @@ export default function Chat() {
         <h2 className="text-2xl font-bold mb-4">
           {activeRoom ? `Room ID: ${activeRoom}` : "Select a room"}
         </h2>
-        {/* <div className="flex-1 overflow-y-auto border p-4 rounded-md mb-4">
-          {messages.map((msg, i) => (
-            <div
-              key={i}
-              className={`mb-2 flex ${
-                msg.authorId === userId ? "justify-end" : "justify-start"
-              }`}
-            >
-              <div
-                className={`p-2 rounded-lg max-w-xs ${
-                  msg.authorId === userId
-                    ? "bg-blue-500 text-white text-right"
-                    : "bg-gray-200 text-black text-left"
-                }`}
-              >
-                <strong className="block">
-                  {msg.name || (msg.authorId === userId ? "You" : "User")}
-                </strong>
-                <span>{msg.text}</span>
-              </div>
-            </div>
-          ))}
-        </div> */}
         <div className="flex-1 overflow-y-auto border p-4 rounded-md mb-4">
           {messages.length > 0 ? (
             messages.map((msg, i) => (
@@ -182,7 +159,7 @@ export default function Chat() {
                   msg.authorId == userId ? "justify-end" : "justify-start"
                 }`}
               >
-                <div
+                  <div
                   className={`p-2 rounded-lg max-w-xs ${
                     msg.authorId == userId
                       ? "bg-green-400 text-white text-right"
@@ -191,19 +168,23 @@ export default function Chat() {
                 >
                   <strong className="block">
                     <p>
-                    <button onClick={()=>handledelete(msg.id)} className="text-red-500 cursor-pointer" >X</button>
+                      <button
+                        onClick={() => handledelete(msg.id)}
+                        className="text-red-500 cursor-pointer"
+                      >
+                        X
+                      </button>
                     </p>
                     {msg.name ||
                       (msg.authorId == userId
                         ? msg.authorDetail.name
-                        : msg.authorDetail.name)} 
-        
+                        : msg.authorDetail.name)}
                   </strong>
                   <span>{msg.text}</span>
                 </div>
               </div>
             ))
-          ) :(
+          ) : (
             <p className="text-gray-500">No messages yet...</p>
           )}
         </div>

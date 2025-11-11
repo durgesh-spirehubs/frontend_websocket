@@ -5,8 +5,16 @@ export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [flag, setFlag] = useState(false);
+  const [errorEmail,setErrorEmail]=useState(false)
+  const [errorPassword,setErrorPassword]=useState(false)
   const handleSubmit = async (e) => {
     e.preventDefault();
+     if(!email){
+      setErrorEmail(true);
+     }
+     if(!password){
+      setErrorPassword(true);
+     }
     const credential = { email, password };
     try {
       const response = await login(credential);
@@ -35,26 +43,36 @@ export default function Login() {
         </h2>
         <form onSubmit={handleSubmit} className="space-y-5">
           <div>
-            <label className="block text-gray-700 text-sm mb-1">Email</label>
+            <label className=" text-gray-700 text-sm mb-1 flex justify-start font-bold">Email</label>
             <input
               type="email"
               placeholder="Enter your email"
               onChange={(e) => setEmail(e.target.value)}
               value={email}
               name="email"
-              className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
+              className={`w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400 ${errorEmail ?"border-red-500 focus:ring-red-400":"border-grey-400 focus:ring-blue-400"}`}
             />
+            {
+            errorEmail && ( 
+                <p className="text-red-500 flex justify-start mt-1">Email is required</p>
+              )
+            }
           </div>
           <div>
-            <label className="block text-gray-700 text-sm mb-1">Password</label>
+            <label className=" text-gray-700 text-sm mb-1 flex justify-start font-bold">Password</label>
             <input
               type="password"
               placeholder="Enter your password"
               onChange={(e) => setPassword(e.target.value)}
               value={password}
               name="password"
-              className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
+            className={`w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400 ${errorPassword ?"border-red-500 focus:ring-red-400":"border-grey-400 focus:ring-blue-400"}`}
             />
+             {
+              errorPassword && ( 
+                <p className="text-red-500 flex justify-start mt-1">Password is required</p>
+              )
+            }
           </div>
           <button
             type="submit"

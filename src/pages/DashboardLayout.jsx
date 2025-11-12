@@ -11,7 +11,7 @@ export default function DashboardLayout() {
       <div
         className={`flex flex-col flex-1 transition-all duration-300 pt-16 ${
           isSidebarOpen ? "ml-64" : "ml-0"
-        } md:ml-64`}
+        } `}
       >
         <Navbar onToggleSidebar={() => setIsSidebarOpen(!isSidebarOpen)} />
         <main className="p-4 flex-1 overflow-auto">

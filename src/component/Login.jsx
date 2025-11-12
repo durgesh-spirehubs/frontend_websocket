@@ -1,12 +1,15 @@
 import { useState } from "react";
 import { login } from "../api/api";
 import Chat from "./Chat";
+import Dashboard from "../pages/Dashboard";
+import { useNavigate } from "react-router-dom";
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [flag, setFlag] = useState(false);
   const [errorEmail,setErrorEmail]=useState(false)
   const [errorPassword,setErrorPassword]=useState(false)
+  const navigate=useNavigate();
   const handleSubmit = async (e) => {
     e.preventDefault();
      if(!email){
@@ -33,7 +36,7 @@ export default function Login() {
     }
   };
   if (flag) {
-    return <Chat />;
+    navigate("/dashboard")
   }
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">

@@ -31,15 +31,17 @@ import Login from "./component/Login";
 import DashboardLayout from "./pages/DashboardLayout";
 import Dashboard from "./pages/Dashboard";
 import Inquiry from "./pages/Inquiry";
+import Add from "./component/Add";
 
 function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<Login />} />
-        <Route path="/dashboard" element={<DashboardLayout />}>
+          <Route path="/" element={<Login />} />
+          <Route path="/dashboard" element={<DashboardLayout />}>
           <Route index element={<Dashboard />} />
           <Route path="inquiry" element={<Inquiry/>} />
+          <Route path="add"   element={<Add/>}/>
           <Route path="leads" element={<div>Leads Page</div>} />
           <Route path="clients" element={<div>Clients Page</div>} />
         </Route>

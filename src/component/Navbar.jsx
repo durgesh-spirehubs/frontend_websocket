@@ -42,8 +42,6 @@
 //     </div>
 //   );
 // }
-
-
 import notification from "../assets/notification-bell-svgrepo-com.svg";
 import setting from "../assets/settings-svgrepo-com.svg";
 import menu from "../assets/burger-menu-svgrepo-com.svg";

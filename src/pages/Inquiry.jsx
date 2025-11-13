@@ -1,8 +1,17 @@
 import { useState, useEffect } from "react";
 import searchIcon from "../assets/search.png";
 import { useNavigate } from "react-router-dom";
-import { User, Filter, Plus, HandPlatterIcon } from "lucide-react";
+import {
+  User,
+  Filter,
+  Plus,
+  HandPlatterIcon,
+  Eye,
+  Pencil,
+  Trash2,
+} from "lucide-react";
 import { inquiry } from "../api/api";
+import threedot from "../assets/three-dots-vertical-svgrepo-com.svg";
 export default function Inquiry() {
   const [search, setSearchTerm] = useState("");
   const [inquiryData, setInquiryData] = useState([]);
@@ -10,6 +19,7 @@ export default function Inquiry() {
   const [total, setTotal] = useState(0);
   const [page, setPage] = useState(1);
   const [limit, setlimit] = useState(5);
+  const [openMenuId, setOpenMenuId] = useState(null);
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
   if (!token) {
@@ -44,6 +54,15 @@ export default function Inquiry() {
     }
     setPage((page) => page + 1);
   };
+  const handleMenuToggle = (id) => {
+    setOpenMenuId(openMenuId == id ? null : id);
+  };
+  const handleView=(id)=>{
+    navigate(`/dashboard/inquiry/${id}`)
+  }
+  const handleEdit=(id)=>{
+    navigate(`/dashboard/Edit/${id}`)
+  }
   return (
     <div className="m-5 rounded-md border border-gray-200 bg-white shadow-sm">
       <div className="flex justify-between items-center border-b border-gray-100 p-4">
@@ -87,23 +106,57 @@ export default function Inquiry() {
             {inquiryData.map((data, index) => (
               <tr
                 key={index}
-                className="border-b border-[rgb(238,238,238)] bg-[rgb(255,255,255)] hover:bg-gray-200"
+                className="border-b border-[rgb(238,238,238)] bg-[rgb(255,255,255)] hover:bg-gray-100"
               >
-                <td className="px-4 py-3 font-semibold cursor-pointer"  onClick={() => navigate(`/dashboard/inquiry/${data.id}`)}>
+                <td
+                  className="px-4 py-3 font-semibold cursor-pointer text-blue-500"
+                  onClick={() => navigate(`/dashboard/inquiry/${data.id}`)}
+                >
                   {data.name}
-                  </td>
+                </td>
                 <td className="px-4 py-3 font-semibold">{data.companyName}</td>
                 <td className="px-4 py-3 font-semibold">
                   {data?.description || null}
                 </td>
                 <td className="px-4 py-3 font-semibold">{data?.type}</td>
                 <td className="px-4 py-3 font-semibold">{data?.status}</td>
-                <td className="px-4 py-3 font-semibold">Action</td>
+                <td className="relative px-4 py-3 font-semibold">
+                  <button
+                    className="border border-gray-50 rounded-full cursor-pointer hover:bg-gray-300 p-1.5"
+                    onClick={() => handleMenuToggle(data.id)}
+                  >
+                    <img src={threedot} className="w-7"></img>
+                  </button>
+                  {openMenuId == data.id && (
+                    <div>
+                      <div className="absolute  right-20 top-2 z-40  flex flex-col   justify-center   bg-white border  border-gray-200 shadow-lg rounded-lg  w-28">
+                        <div>
+                          <button className="flex items-center gap-2 px-4 py-2 hover:bg-gray-100 text-sm w-full" onClick={() =>handleEdit(data.id)}>
+                            <Pencil className="w-4 h-4" />
+                            Edit
+                          </button>
+                        </div>
+                        <div>
+                          <button className="flex items-center gap-2 px-4 py-2 hover:bg-gray-100 text-sm w-full" onClick={() => handleView(data.id)}
+>
+                            <Eye className="w-4 h-4" /> View
+                          </button>
+                        </div>
+                        <div>
+                          <button className="flex items-center gap-2 px-4 py-2 hover:bg-gray-100 text-sm w-full">
+                            <Trash2 className="w-4 h-4" />
+                            Delete
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                </td>
               </tr>
             ))}
           </tbody>
         ) : (
-            <p className="text-xl font-semibold px-3 py-4">No Result Found</p>
+          <p className="text-xl font-semibold px-3 py-4">No Result Found</p>
         )}
       </table>
       <div className="flex justify-end items-center border-t border-gray-100 px-4 py-2 text-sm text-gray-600 ">
@@ -117,7 +170,7 @@ export default function Inquiry() {
             }}
             className="ml-2 border border-gray-300 rounded px-2 py-1 text-sm mr-3"
           >
-           <option value="1">1</option>
+            <option value="1">1</option>
             <option value="2">2</option>
             <option value="5">5</option>
             <option value="10">10</option>

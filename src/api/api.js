@@ -47,3 +47,57 @@ export const singleInquiry=async(id)=>{
   })
   return response;
 }
+
+
+export const deleteInquiry=async(id)=>{
+  const token=localStorage.getItem("token");
+  const response=axios.get(`${api}/inquiry/${id}`,{
+    headers:{
+      Authorization:`Bearer ${token}`
+    }
+  })
+  return response;
+}
+export const getStaff=async()=>{
+  const token=localStorage.getItem("token");
+   const response=axios.get(`${api}/staff`,{
+    headers:{
+      Authorization:`Bearer ${token}`
+    }
+   });
+   return response;
+}
+
+export const assignInquiry=async(id,payload)=>{
+     const token=localStorage.getItem("token");
+     console.log("assign",id,payload)
+     const response=axios.post(`${api}/inquiry/${id}`,payload,{
+      headers:{
+        Authorization:`Bearer ${token}`
+      }
+     })
+     return response;
+}
+
+export const  updateInquiry=async(payload,id)=>{
+  const token=localStorage.getItem("token");
+  const response=await axios.patch(`${api}/inquiry/${id}`,payload,{
+      headers:{
+       Authorization:`Bearer ${token}`
+      } 
+  })
+  return response;
+}
+export const convertToLead = async (id) => {
+  const token = localStorage.getItem("token");
+  const response = await axios.post(
+    `${api}/inquiry/convert-lead/${id}`,
+    {}, 
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+  return response;
+};

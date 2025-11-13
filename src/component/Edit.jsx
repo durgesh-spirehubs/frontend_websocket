@@ -1,13 +1,15 @@
 import { Navigate, useNavigate } from "react-router-dom";
 import { useState } from "react";
-import { createInquiry } from "../api/api";
-export default function Add() {
+import { createInquiry, updateInquiry } from "../api/api";
+import { useParams } from "react-router-dom";
+export default function Edit() {
   const [name, setName] = useState("");
   const [companyname, setcompanyname] = useState("");
   const [description, setDescription] = useState("");
   const [type, setType] = useState("");
   const [status,setStatus]=useState("Active");
   const navigate = useNavigate();
+  const {id}=useParams();
   const handleSubmit = async (e) => {
     e.preventDefault();
     const payload = {
@@ -17,12 +19,12 @@ export default function Add() {
       type: type,
       status:status
     };
-    console.log(payload);
-    const response = await createInquiry(payload);
-    if (response.status == 201) {
+    const response = await updateInquiry(payload,id);
+    if (response.status == 200) {
+        alert("update inquiry successful")
       navigate("/dashboard/inquiry");
     } else {
-      alert("fail to create lead!!");
+      alert("fail to update lead!!");
     }
   };
   const handleback = () => {
@@ -31,7 +33,7 @@ export default function Add() {
   return (
     <div className="bg-white border border-teal-400">
       <div className="flex justify-items-center justify-between border-b border-gray-100 p-3">
-        <div className="font-semibold text-2xl">Add Inquiry</div>
+        <div className="font-semibold text-2xl">Edit Inquiry</div>
         <button
           className="w-20 h-10 sm:w-25 bg-[rgb(0,212,219)]  rounded-md hover:bg-teal-300"
           onClick={handleback}

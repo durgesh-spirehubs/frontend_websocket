@@ -1,7 +1,7 @@
 export default function Dashboard() {
   return (
     <>
-      <div className="flex flex-col  gap-4">
+      <div className="flex flex-col sm:flex-row gap-4">
         <div className="bg-[linear-gradient(315deg,rgb(180,97,248)_0%,rgb(245,126,50)_100%)] w-full h-40  sm:w-1/3 flex flex-col border-2  rounded-2xl text-white shadow-lg">
           <div className="flex justify-start  mt-5 ml-7 text-lg font-semibold">
             LEADS

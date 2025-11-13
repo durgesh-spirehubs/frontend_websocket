@@ -25,7 +25,7 @@ export default function Sidebar({ isOpen, onClose }) {
         </ul>
       </div>
       {isOpen && (
-        <div className="fixed inset-0 bg-black/40 z-40" onClick={onClose}></div>
+        <div className="fixed inset-0 bg-black/40 z-40 md:hidden" onClick={onClose}></div>
       )}
     </>
   );

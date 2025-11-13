@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { User, Filter, Plus, HandPlatterIcon } from "lucide-react";
 import { inquiry } from "../api/api";
 export default function Inquiry() {
-  const [searchTerm, setSearchTerm] = useState("");
+  const [search, setSearchTerm] = useState("");
   const [inquiryData, setInquiryData] = useState([]);
   const [totalPage, setTotalPage] = useState(0);
   const [total, setTotal] = useState(0);
@@ -21,6 +21,7 @@ export default function Inquiry() {
         page: page,
         limit: limit,
         token: token,
+        search: search,
       };
       const response = await inquiry(data);
       console.log("response", response);
@@ -30,7 +31,7 @@ export default function Inquiry() {
       setTotal(response.total);
     };
     getData();
-  }, [page, limit]);
+  }, [page, limit, search]);
   const handleAdd = () => {
     navigate("/dashboard/add");
   };
@@ -65,7 +66,7 @@ export default function Inquiry() {
         <input
           type="text"
           placeholder="Search here"
-          value={searchTerm}
+          value={search}
           onChange={(e) => setSearchTerm(e.target.value)}
           className="w-full bg-transparent outline-none placeholder-gray-400 text-gray-700"
         />
@@ -81,40 +82,49 @@ export default function Inquiry() {
             <th className="px-4 py-3 font-bold">Action</th>
           </tr>
         </thead>
-        <tbody>
-          {inquiryData.map((data, index) => (
-            <tr key={index} className="border-b border-[rgb(238,238,238)] bg-[rgb(255,255,255)] hover:bg-gray-200">
-              <td className="px-4 py-3 font-semibold">{data.name}</td>
-              <td className="px-4 py-3 font-semibold">{data.companyName}</td>
-              <td className="px-4 py-3 font-semibold">
-                {data?.description || null}
-              </td>
-              <td className="px-4 py-3 font-semibold">{data?.type}</td>
-              <td className="px-4 py-3 font-semibold">{data?.status}</td>
-              <td className="px-4 py-3 font-semibold">Action</td>
-            </tr>
-          ))}
-        </tbody>
+        {inquiryData && inquiryData.length > 0 ? (
+          <tbody>
+            {inquiryData.map((data, index) => (
+              <tr
+                key={index}
+                className="border-b border-[rgb(238,238,238)] bg-[rgb(255,255,255)] hover:bg-gray-200"
+              >
+                <td className="px-4 py-3 font-semibold cursor-pointer"  onClick={() => navigate(`/dashboard/inquiry/${data.id}`)}>
+                  {data.name}
+                  </td>
+                <td className="px-4 py-3 font-semibold">{data.companyName}</td>
+                <td className="px-4 py-3 font-semibold">
+                  {data?.description || null}
+                </td>
+                <td className="px-4 py-3 font-semibold">{data?.type}</td>
+                <td className="px-4 py-3 font-semibold">{data?.status}</td>
+                <td className="px-4 py-3 font-semibold">Action</td>
+              </tr>
+            ))}
+          </tbody>
+        ) : (
+            <p className="text-xl font-semibold px-3 py-4">No Result Found</p>
+        )}
       </table>
       <div className="flex justify-end items-center border-t border-gray-100 px-4 py-2 text-sm text-gray-600 ">
         <div>
           Rows per page:
-          <select 
-          value={limit}
-          onChange={(e)=>{
-            setlimit(Number(e.target.value))
-            setPage(1)
-          }}
-          className="ml-2 border border-gray-300 rounded px-2 py-1 text-sm mr-3"
+          <select
+            value={limit}
+            onChange={(e) => {
+              setlimit(Number(e.target.value));
+              setPage(1);
+            }}
+            className="ml-2 border border-gray-300 rounded px-2 py-1 text-sm mr-3"
           >
-            <option value="1">1</option>
+           <option value="1">1</option>
             <option value="2">2</option>
             <option value="5">5</option>
             <option value="10">10</option>
           </select>
         </div>
         <div>
-          {page*limit-limit}-{page*limit} of {total}
+          {page * limit - limit}-{page * limit} of {total}
         </div>
         <div className="w-4 border border-gray-400 rounded-xl flex justify-center ml-3 hover:bg-gray-300 cursor-pointer">
           <button onClick={handleNext} disabled={page == totalPage}>

@@ -16,6 +16,7 @@ export default function Add() {
       companyname: companyname,
       description: description,
       type: type,
+      status:status
     };
     console.log(payload);
     const response = await createInquiry(payload);
@@ -31,7 +32,7 @@ export default function Add() {
   return (
     <div className="bg-white border border-teal-400">
       <div className="flex justify-items-center justify-between border-b border-gray-100 p-3">
-        <div className="font-semibold">Add Inquiry</div>
+        <div className="font-semibold text-2xl">Add Inquiry</div>
         <button
           className="w-20 h-10 sm:w-25 bg-[rgb(0,212,219)]  rounded-md hover:bg-teal-300"
           onClick={handleback}
@@ -108,7 +109,7 @@ export default function Add() {
             <input
               type="text"
               placeholder="sales_person"
-              className="w-full sm:w-50 md:w-70 p-3 border border-gray-300  rounded-md focus:outline-none focus:ring-1 focus:ring-teal-400 placeholder-gray-400"
+              className="w-full sm:w-50 md:w-70 p-3 border border-gray-300  rounded-md focus:outline-none focus:ring-1 focus:ring-teal-400 placeholder-gray-500"
             ></input>
           </div>
           <div className="p-4">

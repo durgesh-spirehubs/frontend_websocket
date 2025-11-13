@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { assignInquiry, convertToLead, getStaff, singleInquiry } from "../api/api";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import { Toast } from "../component/Toast";
 export default function SingleInquiry() {
   const [data, setData] = useState("");
   const [staff, setStaff] = useState([]);
@@ -15,6 +16,7 @@ export default function SingleInquiry() {
       const response = await singleInquiry(id);
       const staffdata = await getStaff();
       console.log(staffdata.data.data);
+      console.log(assignstaff)
       setData(response.data.data);
       setStaff(staffdata.data.data);
     };
@@ -40,17 +42,16 @@ export default function SingleInquiry() {
     try {
       const response = await convertToLead(id);
       console.log(response.data.message);
-      alert(response.data.message);
+      Toast("success",response.data.message);
     } catch (error) {
       if (error.response) {
         console.log(error)
-        alert(`Error: ${error.response.data.message || "Something went wrong"}`);
+        Toast("error",error.response.data.message)
       } else {
-        alert("Network error");
+        Toast("error",error.response.data.message);
       }
     }
   };
-  
   return (
     <div className="bg-white border border-teal-400">
       <div className="flex justify-between items-cente border-b border-gray-300 p-4">
@@ -104,7 +105,7 @@ export default function SingleInquiry() {
               className="w-1/2 mt-1 border border-gray-300 focus:outline-none hover:border-teal-400 text-[rgb(97,97,97)] rounded-sm"
               onChange={(e) => handleAssign(e.target.value, data.id)}
             >
-              <option value="" className="hvoer:none">
+                <option value="" className="hvoer:none">
                 Select Staff
               </option>
               {staff.map((s) => (

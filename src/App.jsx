@@ -1,28 +1,4 @@
-// import "./App.css";
-// import Chat from "./component/Chat";
-// import Login from "./component/Login";
-// import Dashboard from "./pages/Dashboard";
-// import Navbar from "./component/Navbar";
-// import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-// import Sidebar from "./pages/Sidebar";
 
-// function App() {
-//   return (
-//     <div>
-//       <Router>
-//         <Navbar/>
-//         <Sidebar isOpen={true}/>
-//         <Routes>
-//         <Route path="/" element={<Login />} />
-//         <Route path="/dashboard" element={<Dashboard/>}/>
-//         <Route path="/inquiry" element={<div>Inquiry</div>}></Route>
-//         <Route path="/leads" element={<div>Leads</div>}></Route>
-//         </Routes>
-//       </Router>
-//     </div>
-//   );
-// }
-// export default App;
 
 
 import React from "react";
@@ -34,13 +10,20 @@ import Inquiry from "./pages/Inquiry";
 import Add from "./component/Add";
 import SingleInquiry from "./pages/SingleInquiry";
 import Edit from "./component/Edit";
+import { Toaster } from "react-hot-toast";
+import ProtectedRoute from "./component/ProtectedRoute";
 
 function App() {
   return (
+    <div>
     <Router>
       <Routes>
           <Route path="/" element={<Login />} />
-          <Route path="dashboard" element={<DashboardLayout />}>
+          <Route path="dashboard" element={
+              <ProtectedRoute>
+            <DashboardLayout />
+              </ProtectedRoute>
+            }>
           <Route index element={<Dashboard />} />
           <Route path="inquiry" element={<Inquiry/>} />
           <Route path="inquiry/:id" element={<SingleInquiry />} />
@@ -51,6 +34,8 @@ function App() {
         </Route>
       </Routes>
     </Router>
+       <Toaster position="bottom-right" reverseOrder={false} />
+    </div>
   );
 }
 
